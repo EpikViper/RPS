@@ -4,7 +4,6 @@ function randint(a, b) {
     return Math.floor(multiple * Math.random()) + Math.min(a,b);
 }
 
-
 function translateNumber(num) {
     switch (num) {
         case 1: return 'Rock';
@@ -14,25 +13,17 @@ function translateNumber(num) {
     }
 }
 
-
 function getComputerChoice() {
     let randomNumber = randint(1,3);
 
     return translateNumber(randomNumber);
 }
 
-function getHumanChoice() {
-    let chosenNumber = parseInt(prompt("Enter 1 for Rock, 2 for Paper, and 3 for Scissors: "));
-    
-    return translateNumber(chosenNumber);
-}
-
-
 let humanScore = 0;
 let computerScore = 0;
 
 function scoreSingleRound(humanChoice, computerChoice) {
-    
+
     switch(true) {
         case (humanChoice == computerChoice):
             break;
@@ -50,23 +41,30 @@ function scoreSingleRound(humanChoice, computerChoice) {
     scoreElement.textContent = `${humanScore} : ${computerScore}`;
 }
 
-
 function playRound(humanChoice) {
     let computerChoice = getComputerChoice();
     scoreSingleRound(humanChoice, computerChoice);
+
+    if (humanScore == 5) {
+        endGame('Good job, you won ' + humanScore + ':' + computerScore);
+    } else if (computerScore == 5) {
+        endGame('Nice try, but you lost ' + humanScore + ':' + computerScore);
+    }
 }
 
+function endGame(string) {
+    const body = document.body;
 
-function playGame(n_rounds) {
-    humanScore = 0;
-    computerScore = 0;
-
-    for (let i = 0; i < n_rounds; i++) {
-        let humanChoice = getHumanChoice();
-        playRound(humanChoice);
+    while(body.lastChild) {
+        body.removeChild(body.lastChild);
     }
 
-    return humanScore, computerScore;
+    const finalText = document.createElement('h1');
+    finalText.textContent = string;
+
+    body.appendChild(finalText);
+    finalText.style.alignSelf = 'center';
+    finalText.style.justifySelf = 'center';
 }
 
 document.body.style.display = 'flex';
@@ -75,19 +73,18 @@ document.body.style.justifyContent = 'center';
 document.body.style.gap = '25px';
 
 const buttonSet = document.querySelector('#button-set');
-
 const rockButton = document.createElement('button');
-rockButton.textContent = 'Rock';
 const paperButton = document.createElement('button');
-paperButton.textContent = 'Paper';
 const scissorsButton = document.createElement('button');
-scissorsButton.textContent = 'Scissors';
-
 const scoreElement = document.createElement('h1');
+const roundExplanation = document.createElement('h1');
+
+
+rockButton.textContent = 'Rock';
+paperButton.textContent = 'Paper';
+scissorsButton.textContent = 'Scissors';
 scoreElement.textContent = `${humanScore} : ${computerScore}`;
 scoreElement.style.alignSelf = 'center';
-
-const roundExplanation = document.createElement('h1');
 roundExplanation.textContent = `You can start playing`;
 roundExplanation.style.alignSelf = 'center';
 
@@ -100,7 +97,6 @@ buttonSet.appendChild(paperButton);
 buttonSet.appendChild(scissorsButton);
 document.body.appendChild(roundExplanation);
 document.body.appendChild(scoreElement);
-
 
 buttonSet.style.display = 'flex';
 buttonSet.style.justifyContent = 'center';
