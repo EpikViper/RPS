@@ -46,12 +46,12 @@ function scoreSingleRound(humanChoice, computerChoice) {
             break;
     }
 
-    console.log(`The choices were ${humanChoice} and ${computerChoice}. The score is ${humanScore} : ${computerScore}`);
+    roundExplanation.textContent = 'You chose ' + humanChoice + ' and the computer chose ' + computerChoice; 
+    scoreElement.textContent = `${humanScore} : ${computerScore}`;
 }
 
 
 function playRound(humanChoice) {
-    
     let computerChoice = getComputerChoice();
     scoreSingleRound(humanChoice, computerChoice);
 }
@@ -69,6 +69,10 @@ function playGame(n_rounds) {
     return humanScore, computerScore;
 }
 
+document.body.style.display = 'flex';
+document.body.style.flexDirection = 'column';
+document.body.style.justifyContent = 'center';
+document.body.style.gap = '25px';
 
 const buttonSet = document.querySelector('#button-set');
 
@@ -79,6 +83,14 @@ paperButton.textContent = 'Paper';
 const scissorsButton = document.createElement('button');
 scissorsButton.textContent = 'Scissors';
 
+const scoreElement = document.createElement('h1');
+scoreElement.textContent = `${humanScore} : ${computerScore}`;
+scoreElement.style.alignSelf = 'center';
+
+const roundExplanation = document.createElement('h1');
+roundExplanation.textContent = `You can start playing`;
+roundExplanation.style.alignSelf = 'center';
+
 rockButton.addEventListener('click', () => playRound('Rock'));
 paperButton.addEventListener('click', () => playRound('Paper'));
 scissorsButton.addEventListener('click', () => playRound('Scissors'));
@@ -86,10 +98,10 @@ scissorsButton.addEventListener('click', () => playRound('Scissors'));
 buttonSet.appendChild(rockButton);
 buttonSet.appendChild(paperButton);
 buttonSet.appendChild(scissorsButton);
+document.body.appendChild(roundExplanation);
+document.body.appendChild(scoreElement);
+
 
 buttonSet.style.display = 'flex';
 buttonSet.style.justifyContent = 'center';
 buttonSet.style.alignItems = 'center';
-
-
-// playGame(5);
